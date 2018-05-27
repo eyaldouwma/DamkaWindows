@@ -281,6 +281,8 @@ namespace DamkaUI
             }
             else
             {
+                m_PieceTaken.BackColor = Color.Transparent;
+                m_FirstTurnClick = true;
                 MessageBox.Show("Invalid selection.");
             }
         }
