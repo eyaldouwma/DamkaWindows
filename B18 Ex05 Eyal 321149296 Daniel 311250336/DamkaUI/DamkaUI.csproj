@@ -76,6 +76,14 @@
   <ItemGroup>
     <None Include="Resources\WhiteTile.png" />
   </ItemGroup>
+  <ItemGroup>
+    <Content Include="Resources\B18 Ex02 Eyal 321149296 Daniel 311250336.dll" />
+    <None Include="Resources\black.png" />
+    <None Include="Resources\white.png" />
+    <None Include="Resources\whitePiece.png" />
+    <None Include="Resources\blackPiece.png" />
+    <None Include="Resources\checkrsIcon.png" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.
