@@ -124,19 +124,13 @@
   <data name="checkrsIcon" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\checkrsIcon.png;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
-  <data name="whiteKing" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\GreenChecker.png;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
-  <data name="blackKing" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\OrangeChecker.png;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
   <data name="WhiteTile" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\WhiteTile.png;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
-  <data name="blackPiece" type="System.Resources.ResXFileRef, System.Windows.Forms">
+  <data name="blackKing" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\blackPiece.png;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
-  <data name="whitePiece" type="System.Resources.ResXFileRef, System.Windows.Forms">
+  <data name="whiteKing" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\whitePiece.png;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
   <data name="black" type="System.Resources.ResXFileRef, System.Windows.Forms">

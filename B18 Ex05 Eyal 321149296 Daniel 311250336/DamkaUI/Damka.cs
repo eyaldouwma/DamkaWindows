@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Text;
 using System.Windows.Forms;
 using System.Drawing;
+using System.Timers;
 using B18_Ex02_Eyal_321149296_Daniel_311250336;
 
 namespace DamkaUI
@@ -356,26 +357,27 @@ namespace DamkaUI
             io_ActivePlayer = io_NextPlayer;
             io_NextPlayer = temp;
             io_ActivePlayer.UpdatePiecesMoves();
-            if(m_CurrentPlayer.IsComputer)
-            {
-                doComputerMove();
-            }
         }
 
         private void doComputerMove()
         {
-            System.Threading.Thread.Sleep(1000);
+            System.Timers.Timer waitTimer = new System.Timers.Timer();
+
+            waitTimer.AutoReset = false;
+            waitTimer.Interval = 300;
+            waitTimer.SynchronizingObject = this;
+            waitTimer.Elapsed += new ElapsedEventHandler(playComputerMove);
             if (m_CurrentPlayer.AvailablePieces.Count == 0)
             {
                 checkIfGameOver();
             }
             else
             {
-                playComputerMove();
+                waitTimer.Start();
             }
         }
 
-        private void playComputerMove()
+        private void playComputerMove(object i_Sender, EventArgs i_E)
         {
             string computerMove = m_CurrentPlayer.ComputerPlayerMove(m_CurrentPlayer.PiecesThatMustCapture());
             int left, top;
@@ -465,7 +467,7 @@ namespace DamkaUI
             }
 
             m_FirstTurnClick = true;
-            if(m_CurrentPlayer == m_PlayerTwo)
+            if(m_CurrentPlayer.IsComputer)
             {
                 doComputerMove();
             }

@@ -83,16 +83,6 @@ namespace DamkaUI.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
-        internal static System.Drawing.Bitmap blackPiece {
-            get {
-                object obj = ResourceManager.GetObject("blackPiece", resourceCulture);
-                return ((System.Drawing.Bitmap)(obj));
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized resource of type System.Drawing.Bitmap.
-        /// </summary>
         internal static System.Drawing.Bitmap BlackTile {
             get {
                 object obj = ResourceManager.GetObject("BlackTile", resourceCulture);
@@ -126,16 +116,6 @@ namespace DamkaUI.Properties {
         internal static System.Drawing.Bitmap whiteKing {
             get {
                 object obj = ResourceManager.GetObject("whiteKing", resourceCulture);
-                return ((System.Drawing.Bitmap)(obj));
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized resource of type System.Drawing.Bitmap.
-        /// </summary>
-        internal static System.Drawing.Bitmap whitePiece {
-            get {
-                object obj = ResourceManager.GetObject("whitePiece", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }
