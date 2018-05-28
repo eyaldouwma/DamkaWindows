@@ -74,7 +74,7 @@ namespace DamkaUI
         private void checkBox_change(object sender, EventArgs e)
         {
             m_PlayerTwoName.Enabled = !m_PlayerTwoName.Enabled;
-            m_IsAgainstComputer = !m_PlayerTwoCheckBox.Enabled;
+            m_IsAgainstComputer = !m_PlayerTwoCheckBox.Checked;
         }
 
         private void textBox_disabled(object sender, EventArgs e)

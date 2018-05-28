@@ -79,6 +79,7 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="Resources\B18 Ex02 Eyal 321149296 Daniel 311250336.dll" />
+    <None Include="Resources\explode.png" />
     <None Include="Resources\black.png" />
     <None Include="Resources\white.png" />
     <None Include="Resources\whitePiece.png" />

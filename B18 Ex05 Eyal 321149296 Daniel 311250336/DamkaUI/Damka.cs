@@ -179,7 +179,6 @@ namespace DamkaUI
                     m_CurrentPlayer.PiecesThatMustCapture()) == true)
                 {
                     movePiece(i_Sender as PictureBox);
-                    checkIfGameOver();
                 }
                 else
                 {
@@ -271,7 +270,7 @@ namespace DamkaUI
         private void removePieceFromBoard(int i_Top, int i_Left, List<PictureBox> i_PieceToSearch)
         {
             PictureBox toRemove = new PictureBox();
-
+            
             foreach (PictureBox pic in i_PieceToSearch)
             {
                 if ((pic.Top == i_Top) && (pic.Left == i_Left))
@@ -282,7 +281,6 @@ namespace DamkaUI
 
             i_PieceToSearch.Remove(toRemove);
             this.Controls.Remove(toRemove);
-
         }
 
         private PictureBox initializePiecePictureBox(int i_Top, int i_Left, Image i_Img, int i_Row, int i_Column)
@@ -368,11 +366,7 @@ namespace DamkaUI
             waitTimer.Interval = 300;
             waitTimer.SynchronizingObject = this;
             waitTimer.Elapsed += new ElapsedEventHandler(playComputerMove);
-            if (m_CurrentPlayer.AvailablePieces.Count == 0)
-            {
-                checkIfGameOver();
-            }
-            else
+            if (m_CurrentPlayer.AvailablePieces.Count > 0)
             {
                 waitTimer.Start();
             }
@@ -476,6 +470,8 @@ namespace DamkaUI
             {
                 doComputerMove();
             }
+
+            checkIfGameOver();
         }
 
         private void checkIfPieceThatCapturedCanCaptureFurther()
