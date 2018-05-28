@@ -358,13 +358,13 @@ namespace DamkaUI
             io_ActivePlayer.UpdatePiecesMoves();
             if(m_CurrentPlayer.IsComputer)
             {
-                System.Threading.Thread.Sleep(1000);
                 doComputerMove();
             }
         }
 
         private void doComputerMove()
         {
+            System.Threading.Thread.Sleep(1000);
             if (m_CurrentPlayer.AvailablePieces.Count == 0)
             {
                 checkIfGameOver();
@@ -465,6 +465,10 @@ namespace DamkaUI
             }
 
             m_FirstTurnClick = true;
+            if(m_CurrentPlayer == m_PlayerTwo)
+            {
+                doComputerMove();
+            }
         }
 
         private void checkIfGameOver()
