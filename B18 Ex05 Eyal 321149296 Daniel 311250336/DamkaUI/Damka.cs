@@ -179,6 +179,7 @@ namespace DamkaUI
                     m_CurrentPlayer.PiecesThatMustCapture()) == true)
                 {
                     movePiece(i_Sender as PictureBox);
+                    checkIfGameOver();
                 }
                 else
                 {
@@ -457,6 +458,10 @@ namespace DamkaUI
                 m_NextPlayer.RemovePieces();
                 m_CurrentPlayer.UpdatePiecesMoves();
                 m_CurrentPlayer.CapturedAPiece = false;
+                if (m_CurrentPlayer.CanCapture)
+                {
+                    checkIfPieceThatCapturedCanCaptureFurther();
+                }
             }
 
             checkIfBecameKing();
@@ -471,6 +476,26 @@ namespace DamkaUI
             {
                 doComputerMove();
             }
+        }
+
+        private void checkIfPieceThatCapturedCanCaptureFurther()
+        {
+            BoardPosition currentPiece = new BoardPosition();
+            bool samePieceCanCapture = false;
+            GamePiece saveGamePieceThatCanCapture;
+
+            currentPiece.Column = (m_PieceTaken.Left - 5) / k_TileWidth;
+            currentPiece.Row = (m_PieceTaken.Top - 50) / k_TileHeight;
+            foreach (GamePiece piece in m_CurrentPlayer.PiecesThatMustCapture())
+            {
+                if ((piece.Column == currentPiece.Column) && (piece.Row == currentPiece.Row))
+                {
+                    samePieceCanCapture = true;
+                    saveGamePieceThatCanCapture = piece;
+                }
+            }
+
+            m_CurrentPlayer.CanCapture = samePieceCanCapture;
         }
 
         private void checkIfGameOver()
