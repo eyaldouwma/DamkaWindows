@@ -5,6 +5,7 @@ using System.Windows.Forms;
 using System.Drawing;
 using System.Timers;
 using B18_Ex02_Eyal_321149296_Daniel_311250336;
+using BoardSymbol = B18_Ex02_Eyal_321149296_Daniel_311250336.PieceSymbol.eGameSymbols;
 
 namespace DamkaUI
 {
@@ -20,12 +21,14 @@ namespace DamkaUI
         private Player m_NextPlayer;
         private Label m_PlayerOneLabel = new Label();
         private Label m_PlayerTwoLabel = new Label();
-        private List<PictureBox> m_PlayerOnePieces;
-        private List<PictureBox> m_PlayerTwoPieces;
-        private PictureBox m_PieceTaken;
+        private List<GamePieceUI> m_PlayerOnePieces;
+        private List<GamePieceUI> m_PlayerTwoPieces;
+        private GamePieceUI m_PieceTaken;
         private BoardPosition m_CurrentPosition = new BoardPosition();
         private BoardPosition m_NewPlace = new BoardPosition();
         private bool m_FirstTurnClick = true;
+        private Cursor m_DefaultCursor;
+        private Image m_PieceTakenImage;
 
         private const bool v_IsComputerPlayer = true;
 
@@ -52,11 +55,13 @@ namespace DamkaUI
             m_GameBoardGraphics = new PictureBox[i_BoardSize, i_BoardSize];
 
             this.Text = "Damka";
+            this.BackgroundImage = DamkaUI.Properties.Resources.MarbleBackground;
+            this.BackgroundImageLayout = ImageLayout.Stretch;
             this.Size = new Size(((i_BoardSize * k_TileWidth) + 25), ((i_BoardSize * k_TileHeight) + 90));
             this.FormBorderStyle = FormBorderStyle.FixedSingle;
             this.MaximizeBox = false;
             this.Icon = Icon.FromHandle(DamkaUI.Properties.Resources.checkrsIcon.GetHicon());
-
+            m_DefaultCursor = this.Cursor;
         }
 
         public void Start()
@@ -92,19 +97,21 @@ namespace DamkaUI
 
         private void initializePlayerData()
         {
-            m_PlayerOnePieces = new List<PictureBox>((m_GameBoardData.GameBoardSize / 2) * ((m_GameBoardData.GameBoardSize / 2) - 1));
+            m_PlayerOnePieces = new List<GamePieceUI>((m_GameBoardData.GameBoardSize / 2) * ((m_GameBoardData.GameBoardSize / 2) - 1));
             m_PlayerOneLabel.Text = m_PlayerOne.Name + ": " + m_PlayerOne.Score.ToString();
             m_PlayerOneLabel.Font = new Font("Arial", 11);
             m_PlayerOneLabel.Top = 10;
             m_PlayerOneLabel.Left = 50;
             m_PlayerOneLabel.AutoSize = true;
+            m_PlayerOneLabel.BackColor = Color.Transparent;
             this.Controls.Add(m_PlayerOneLabel);
-            m_PlayerTwoPieces = new List<PictureBox>((m_GameBoardData.GameBoardSize / 2) * ((m_GameBoardData.GameBoardSize / 2) - 1));
+            m_PlayerTwoPieces = new List<GamePieceUI>((m_GameBoardData.GameBoardSize / 2) * ((m_GameBoardData.GameBoardSize / 2) - 1));
             m_PlayerTwoLabel.Text = m_PlayerTwo.Name + ": " + m_PlayerTwo.Score.ToString();
             m_PlayerTwoLabel.Font = new Font("Arial", 11);
             m_PlayerTwoLabel.Top = 10;
             m_PlayerTwoLabel.Left = m_PlayerOneLabel.Right + 50;
             m_PlayerTwoLabel.AutoSize = true;
+            m_PlayerTwoLabel.BackColor = Color.Transparent;
             this.Controls.Add(m_PlayerTwoLabel);
         }
 
@@ -173,16 +180,18 @@ namespace DamkaUI
         {
             if (m_FirstTurnClick == false)
             {
+                this.Cursor = m_DefaultCursor;
+                m_PieceTaken.Image = m_PieceTakenImage;
                 m_NewPlace.Column = ((i_Sender as PictureBox).Left - 5) / k_TileWidth;
                 m_NewPlace.Row = ((i_Sender as PictureBox).Top - 50) / k_TileHeight;
                 if (m_CurrentPlayer.CheckMoveAvailabillityAndMove(m_CurrentPosition, m_NewPlace,
                     m_CurrentPlayer.PiecesThatMustCapture()) == true)
                 {
-                    movePiece(i_Sender as PictureBox);
+                    playTurn(i_Sender as PictureBox);
                 }
                 else
                 {
-                    m_PieceTaken.BackColor = Color.Transparent;
+                    m_PieceTaken.BackColor = Color.White;
                     MessageBox.Show("Illegal move");
                     m_FirstTurnClick = true;
                 }
@@ -223,24 +232,20 @@ namespace DamkaUI
             return tie;
         }
 
-        private void checkIfBecameKing()
+        private void updateIfBecameKing()
         {
+            char currentSymbolInCellOnBoard;
+
             m_CurrentPosition.Column = (m_PieceTaken.Left - 5) / k_TileWidth;
             m_CurrentPosition.Row = (m_PieceTaken.Top - 50) / k_TileHeight;
-
+            currentSymbolInCellOnBoard = m_GameBoardData.GetCellSymbol(m_CurrentPosition.Row, m_CurrentPosition.Column);
             if (m_CurrentPlayer == m_PlayerOne)
             {
-                if (m_GameBoardData.GetCellSymbol(m_CurrentPosition.Row, m_CurrentPosition.Column) == (char)PieceSymbol.eGameSymbols.PlayerOneKing)
-                {
-                    m_PieceTaken.Image = DamkaUI.Properties.Resources.whiteKing;
-                }
+                m_PieceTaken.CheckIfBecameKing(DamkaUI.Properties.Resources.whiteKing, currentSymbolInCellOnBoard, (char)BoardSymbol.PlayerOneKing);
             }
             else
             {
-                if (m_GameBoardData.GetCellSymbol(m_CurrentPosition.Row, m_CurrentPosition.Column) == (char)PieceSymbol.eGameSymbols.PlayerTwoKing)
-                {
-                    m_PieceTaken.Image = DamkaUI.Properties.Resources.blackKing;
-                }
+                m_PieceTaken.CheckIfBecameKing(DamkaUI.Properties.Resources.blackKing, currentSymbolInCellOnBoard, (char)BoardSymbol.PlayerTwoKing);
             }
         }
 
@@ -248,12 +253,8 @@ namespace DamkaUI
         {
             if (m_CurrentPlayer.CapturedAPiece)
             {
-                BoardPosition capturedPiece = new BoardPosition();
+                BoardPosition capturedPiece = CalculateCapturedBoardPosition();
 
-                capturedPiece = m_NewPlace - m_CurrentPosition;
-                capturedPiece.Column = capturedPiece.Column / 2;
-                capturedPiece.Row = capturedPiece.Row / 2;
-                capturedPiece = capturedPiece + m_CurrentPosition;
                 int top = Math.Abs(capturedPiece.Row * k_TileHeight) + 50;
                 int left = Math.Abs(capturedPiece.Column * k_TileWidth) + 5;
                 if (m_CurrentPlayer == m_PlayerOne)
@@ -267,15 +268,28 @@ namespace DamkaUI
             }
         }
 
-        private void removePieceFromBoard(int i_Top, int i_Left, List<PictureBox> i_PieceToSearch)
+        private BoardPosition CalculateCapturedBoardPosition()
         {
-            PictureBox toRemove = new PictureBox();
+            BoardPosition capturedPiece = new BoardPosition();
+
+            capturedPiece = m_NewPlace - m_CurrentPosition;
+            capturedPiece.Column = capturedPiece.Column / 2;
+            capturedPiece.Row = capturedPiece.Row / 2;
+            capturedPiece = capturedPiece + m_CurrentPosition;
+
+            return capturedPiece;
+        }
+
+        private void removePieceFromBoard(int i_Top, int i_Left, List<GamePieceUI> i_PieceToSearch)
+        {
+            GamePieceUI toRemove = null;
             
-            foreach (PictureBox pic in i_PieceToSearch)
+            foreach (GamePieceUI pic in i_PieceToSearch)
             {
                 if ((pic.Top == i_Top) && (pic.Left == i_Left))
                 {
                     toRemove = pic;
+                    break;
                 }
             }
 
@@ -283,14 +297,10 @@ namespace DamkaUI
             this.Controls.Remove(toRemove);
         }
 
-        private PictureBox initializePiecePictureBox(int i_Top, int i_Left, Image i_Img, int i_Row, int i_Column)
+        private GamePieceUI initializePiecePictureBox(int i_Top, int i_Left, Image i_Img, int i_Row, int i_Column)
         {
-            PictureBox picture = new PictureBox();
+            GamePieceUI picture = new GamePieceUI(i_Top, i_Left, i_Img);
 
-            picture.Image = i_Img;
-            picture.Top = i_Top;
-            picture.Left = i_Left;
-            picture.Size = new Size(k_TileWidth, k_TileHeight);
             this.Controls.Add(picture);
             picture.BringToFront();
             picture.Click += new EventHandler(click_piece);
@@ -302,11 +312,16 @@ namespace DamkaUI
         {
             if (m_FirstTurnClick == true)
             {
+                GamePieceUI pieceChosen;
                 if (m_CurrentPlayer == m_PlayerOne)
                 {
-                    if (m_PlayerOnePieces.Contains(i_Sender as PictureBox))
+                    if (m_PlayerOnePieces.Contains(i_Sender as GamePieceUI))
                     {
-                        pieceToMove(i_Sender as PictureBox);
+                        pieceChosen = i_Sender as GamePieceUI;
+                        m_PieceTaken = pieceChosen.ChoosePiece(ref m_CurrentPosition, ref m_FirstTurnClick);
+                        this.Cursor = new Cursor(((Bitmap)((i_Sender as GamePieceUI).Image)).GetHicon());
+                        m_PieceTakenImage = m_PieceTaken.Image;
+                        m_PieceTaken.Image = DamkaUI.Properties.Resources.transparentTile;
                     }
                     else
                     {
@@ -315,9 +330,13 @@ namespace DamkaUI
                 }
                 else
                 {
-                    if (m_PlayerTwoPieces.Contains(i_Sender as PictureBox))
+                    if (m_PlayerTwoPieces.Contains(i_Sender as GamePieceUI))
                     {
-                        pieceToMove(i_Sender as PictureBox);
+                        pieceChosen = i_Sender as GamePieceUI;
+                        m_PieceTaken = pieceChosen.ChoosePiece(ref m_CurrentPosition, ref m_FirstTurnClick);
+                        m_PieceTakenImage = m_PieceTaken.Image;
+                        this.Cursor = new Cursor(((Bitmap)(pieceChosen.Image)).GetHicon());
+                        m_PieceTaken.Image = DamkaUI.Properties.Resources.transparentTile;
                     }
                     else
                     {
@@ -327,25 +346,18 @@ namespace DamkaUI
             }
             else
             {
-                if (m_PieceTaken == (i_Sender as PictureBox))
+                if (m_PieceTaken == (i_Sender as GamePieceUI))
                 {
-                    m_PieceTaken.BackColor = Color.Transparent;
+                    m_PieceTaken.BackColor = Color.White;
                     m_FirstTurnClick = true;
+                    m_PieceTaken.Image = m_PieceTakenImage;
+                    this.Cursor = m_DefaultCursor;
                 }
                 else
                 {
                     MessageBox.Show("Invalid selection.");
                 }
             }
-        }
-
-        private void pieceToMove(PictureBox i_Piece)
-        {
-            m_CurrentPosition.Column = (i_Piece.Left - 5) / k_TileWidth;
-            m_CurrentPosition.Row = (i_Piece.Top - 50) / k_TileHeight;
-            i_Piece.BackColor = Color.Aqua;
-            m_FirstTurnClick = false;
-            m_PieceTaken = i_Piece;
         }
 
         private void swapActivePlayer(ref Player io_ActivePlayer, ref Player io_NextPlayer)
@@ -382,7 +394,7 @@ namespace DamkaUI
             m_NewPlace = getPositionFromChars(computerMove[3], computerMove[4]);
             left = (m_CurrentPosition.Column * k_TileWidth) + 5;
             top = (m_CurrentPosition.Row * k_TileHeight) + 50;
-            foreach(PictureBox piece in m_PlayerTwoPieces)
+            foreach(GamePieceUI piece in m_PlayerTwoPieces)
             {
                 if((piece.Left == left) && (piece.Top == top))
                 {
@@ -403,7 +415,7 @@ namespace DamkaUI
                 }
             }
 
-            movePiece(tileToMoveTo);
+            playTurn(tileToMoveTo);
 
         }
 
@@ -423,16 +435,29 @@ namespace DamkaUI
 
             score = m_NextPlayer.Score + (m_NextPlayer.CalculateScore() - m_CurrentPlayer.CalculateScore());
             m_NextPlayer.Score = score;
+            m_PlayerOneLabel.Text = m_PlayerOne.Name + ": " + m_PlayerOne.Score.ToString();
+            m_PlayerTwoLabel.Text = m_PlayerTwo.Name + ": " + m_PlayerTwo.Score.ToString();
         }
 
         private void startNewGame()
         {
             calculatePlayersScore();
-            this.Controls.Clear();
+            foreach (GamePieceUI piece in m_PlayerOnePieces)
+            {
+                this.Controls.Remove(piece);
+            }
+
+            m_PlayerOnePieces.Clear();
+            foreach (GamePieceUI piece in m_PlayerTwoPieces)
+            {
+                this.Controls.Remove(piece);
+            }
+
+            m_PlayerTwoPieces.Clear();
             m_GameBoardData.InitiliazeGamePiecesOnBoard();
             m_PlayerOne.ConnectThePiecesToThePlayer();
             m_PlayerTwo.ConnectThePiecesToThePlayer();
-            initializeGameBoardGraphics();
+            initializePieceGraphics();
             m_CurrentPlayer = m_PlayerOne;
             m_NextPlayer = m_PlayerTwo;
             m_PlayerOne.CanCapture = false;
@@ -440,11 +465,9 @@ namespace DamkaUI
             m_CurrentPlayer.UpdatePiecesMoves();
         }
 
-        private void movePiece(PictureBox i_NewPlace)
+        private void playTurn(PictureBox i_NewPlace)
         {
-            m_PieceTaken.Left = i_NewPlace.Left;
-            m_PieceTaken.Top = i_NewPlace.Top;
-            m_PieceTaken.BackColor = Color.Transparent;
+            m_PieceTaken.MovePiece(i_NewPlace);
             updateIfCaptured();
             m_CurrentPlayer.CanCapture = false;
             if (m_CurrentPlayer.CapturedAPiece == true)
@@ -458,7 +481,7 @@ namespace DamkaUI
                 }
             }
 
-            checkIfBecameKing();
+            updateIfBecameKing();
             if (m_CurrentPlayer.CanCapture == false)
             {
                 swapActivePlayer(ref m_CurrentPlayer, ref m_NextPlayer);
