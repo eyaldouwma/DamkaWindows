@@ -4,6 +4,7 @@ using System.Text;
 using System.Windows.Forms;
 using System.Drawing;
 using System.Threading;
+using DamkaGraphics = DamkaUI.Properties.Resources;
 
 namespace DamkaUI
 {
@@ -61,7 +62,7 @@ namespace DamkaUI
         private void enable_done(object i_Sender, EventArgs i_E)
         {
             PictureBoxDoneButton.Enabled = true;
-            PictureBoxDoneButton.Image = DamkaUI.Properties.Resources.doneButton;
+            PictureBoxDoneButton.Image = DamkaGraphics.doneButton;
             if ((i_Sender as BoardSizeRadioButton).Text == "6x6")
             {
                 m_BoardSize = 6;
@@ -92,9 +93,9 @@ namespace DamkaUI
 
         private void initializeGameSettingWindow()
         {
-            this.BackgroundImage = DamkaUI.Properties.Resources.MarbleBackground;
+            this.BackgroundImage = DamkaGraphics.MarbleBackground;
             this.BackgroundImageLayout = ImageLayout.Stretch;
-            this.Icon = Icon.FromHandle(DamkaUI.Properties.Resources.checkrsIcon.GetHicon());
+            this.Icon = Icon.FromHandle(DamkaGraphics.checkrsIcon.GetHicon());
             this.Size = new Size(280, 210);
             this.MaximizeBox = false;
             this.MinimizeBox = false;
@@ -167,7 +168,7 @@ namespace DamkaUI
             PictureBoxDoneButton.Text = "Done";
             PictureBoxDoneButton.Top = this.ClientSize.Height - PictureBoxDoneButton.Height;
             PictureBoxDoneButton.Left = this.ClientSize.Width - PictureBoxDoneButton.Width;
-            PictureBoxDoneButton.Image = DamkaUI.Properties.Resources.doneButtonDisabled;
+            PictureBoxDoneButton.Image = DamkaGraphics.doneButtonDisabled;
             PictureBoxDoneButton.SizeMode = PictureBoxSizeMode.StretchImage;
             this.Controls.Add(PictureBoxDoneButton);
             PictureBoxDoneButton.Click += new EventHandler(done_clicked);
