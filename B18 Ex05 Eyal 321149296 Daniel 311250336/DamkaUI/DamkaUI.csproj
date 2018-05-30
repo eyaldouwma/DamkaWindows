@@ -83,6 +83,9 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="Resources\B18 Ex02 Eyal 321149296 Daniel 311250336.dll" />
+    <None Include="Resources\explosion.gif" />
+    <None Include="Resources\WhiteKing.png" />
+    <None Include="Resources\BlackKing.png" />
     <None Include="Resources\doneButtonDisabled.png" />
     <None Include="Resources\transparentTile.png" />
     <None Include="Resources\uncheckedRadioButton.png" />
