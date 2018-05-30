@@ -4,6 +4,7 @@ using System.Text;
 using System.Windows.Forms;
 using System.Drawing;
 using System.Timers;
+using System.Threading;
 using B18_Ex02_Eyal_321149296_Daniel_311250336;
 using DamkaGraphics = DamkaUI.Properties.Resources;
 using BoardSymbol = B18_Ex02_Eyal_321149296_Daniel_311250336.PieceSymbol.eGameSymbols;
@@ -190,13 +191,6 @@ namespace DamkaUI
             pic.Click += new EventHandler(click_tile);
 
             return pic;
-        }
-
-        private void remove_explosion(object sender, ElapsedEventArgs e)
-        {
-            BoardPosition capturedPiece = CalculateCapturedBoardPosition();
-
-            m_GameBoardGraphics[capturedPiece.Row, capturedPiece.Column].Controls.Clear();
         }
 
         private void click_tile(object i_Sender, EventArgs e)
