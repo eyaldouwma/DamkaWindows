@@ -13,6 +13,7 @@ namespace DamkaUI
     {
         private const int k_TileHeight = 56;
         private const int k_TileWidth = 55;
+        private const bool v_GameIsOver = true;
         private PictureBox[,] m_GameBoardGraphics;
         private GameBoard m_GameBoardData;
         private Player m_PlayerOne;
@@ -29,6 +30,7 @@ namespace DamkaUI
         private bool m_FirstTurnClick = true;
         private Cursor m_DefaultCursor;
         private Image m_PieceTakenImage;
+        private bool m_GameOver = !v_GameIsOver;
 
         private const bool v_IsComputerPlayer = true;
 
@@ -378,7 +380,7 @@ namespace DamkaUI
             waitTimer.Interval = 300;
             waitTimer.SynchronizingObject = this;
             waitTimer.Elapsed += new ElapsedEventHandler(playComputerMove);
-            if (m_CurrentPlayer.AvailablePieces.Count > 0)
+            if ((m_CurrentPlayer.AvailablePieces.Count > 0) && (m_GameOver == !v_GameIsOver))
             {
                 waitTimer.Start();
             }
@@ -462,6 +464,7 @@ namespace DamkaUI
             m_NextPlayer = m_PlayerTwo;
             m_PlayerOne.CanCapture = false;
             m_PlayerTwo.CanCapture = false;
+            m_GameOver = !v_GameIsOver;
             m_CurrentPlayer.UpdatePiecesMoves();
         }
 
@@ -488,13 +491,12 @@ namespace DamkaUI
                 m_CurrentPlayer.UpdatePiecesMoves();
             }
 
+            checkIfGameOver();
             m_FirstTurnClick = true;
             if(m_CurrentPlayer.IsComputer)
             {
                 doComputerMove();
             }
-
-            checkIfGameOver();
         }
 
         private void checkIfPieceThatCapturedCanCaptureFurther()
@@ -536,6 +538,7 @@ namespace DamkaUI
             }
             else if (m_CurrentPlayer.AvailablePieces.Count == 0 || forceWin)
             {
+                m_GameOver = v_GameIsOver;
                 string message = string.Format("{0} Won!{1}Another Round?", m_NextPlayer.Name, System.Environment.NewLine);
                 DialogResult result = MessageBox.Show(message, "Damka", MessageBoxButtons.YesNo);
                 if (result == DialogResult.Yes)
