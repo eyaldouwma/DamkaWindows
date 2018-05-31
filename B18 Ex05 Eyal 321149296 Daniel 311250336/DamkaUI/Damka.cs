@@ -1,19 +1,21 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Text;
 using System.Windows.Forms;
 using System.Drawing;
 using System.Timers;
 using System.Threading;
 using B18_Ex02_Eyal_321149296_Daniel_311250336;
+using Microsoft.Win32;
 using DamkaGraphics = DamkaUI.Properties.Resources;
 using BoardSymbol = B18_Ex02_Eyal_321149296_Daniel_311250336.PieceSymbol.eGameSymbols;
-using DelayTimer = System.Timers.Timer;
 
 namespace DamkaUI
 {
     public class Damka : Form
     {
+        private const bool v_IsComputerPlayer = true;
         private const int k_TileHeight = 56;
         private const int k_TileWidth = 55;
         private const int k_TopOffset = 50;
@@ -38,8 +40,7 @@ namespace DamkaUI
         private Image m_PieceTakenImage;
         private bool m_GameOver = !v_GameIsOver;
         private bool m_SamePieceCanCapture = false;
-
-        private const bool v_IsComputerPlayer = true;
+        private LinkedList<PictureBox> PictureBoxExplosions = new LinkedList<PictureBox>();
 
         public Damka(string i_PlayerOneName, string i_PlayerTwoName, int i_BoardSize, bool i_IsAgainstComputer)
         {
@@ -280,6 +281,8 @@ namespace DamkaUI
                 {
                     removePieceFromBoard(top, left, m_PlayerOnePieces);
                 }
+
+                explodeAnimation(top, left);
             }
         }
 
@@ -310,6 +313,35 @@ namespace DamkaUI
 
             i_PieceToSearch.Remove(toRemove);
             this.Controls.Remove(toRemove);
+        }
+
+        private void explodeAnimation(int i_Top, int i_Left)
+        {
+            DelayTimer timer = new DelayTimer(this, 600);
+            PictureBox explosion = new PictureBox();
+            
+            explosion.Top = i_Top;
+            explosion.Left = i_Left;
+            explosion.Image = DamkaGraphics.explosion;
+            explosion.Size = new Size(k_TileWidth, k_TileHeight);
+            explosion.SizeMode = PictureBoxSizeMode.StretchImage;
+            this.Controls.Add(explosion);
+            explosion.BringToFront();
+            PictureBoxExplosions.AddLast(explosion);
+
+            timer.Elapsed += new ElapsedEventHandler(remove_explosions);
+            timer.Start();
+        }
+
+        private void remove_explosions(object i_Sender, EventArgs i_E)
+        {
+            foreach (PictureBox explosion in PictureBoxExplosions)
+            {
+                this.Controls.Remove(explosion);
+                explosion.Dispose();
+            }
+
+            PictureBoxExplosions.Clear();
         }
 
         private GamePieceUI initializePiecePictureBox(int i_Top, int i_Left, Image i_Img, int i_Row, int i_Column)
@@ -419,11 +451,8 @@ namespace DamkaUI
 
         private void doComputerMove()
         {
-            DelayTimer waitTimer = new DelayTimer();
+            DelayTimer waitTimer = new DelayTimer(this, 400);
 
-            waitTimer.AutoReset = false;
-            waitTimer.Interval = 300;
-            waitTimer.SynchronizingObject = this;
             waitTimer.Elapsed += new ElapsedEventHandler(playComputerMove);
             if ((m_CurrentPlayer.AvailablePieces.Count > 0) && (m_GameOver == !v_GameIsOver))
             {

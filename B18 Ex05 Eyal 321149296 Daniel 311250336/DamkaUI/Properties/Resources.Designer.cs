@@ -143,9 +143,9 @@ namespace DamkaUI.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
-        internal static System.Drawing.Bitmap explode {
+        internal static System.Drawing.Bitmap explosion {
             get {
-                object obj = ResourceManager.GetObject("explode", resourceCulture);
+                object obj = ResourceManager.GetObject("explosion", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }

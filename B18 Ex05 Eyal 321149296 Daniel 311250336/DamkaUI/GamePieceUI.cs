@@ -22,8 +22,7 @@ namespace DamkaUI
 
         public void MovePiece(PictureBox i_NewPlace)
         {
-            this.Left = i_NewPlace.Left;
-            this.Top = i_NewPlace.Top;
+            this.Location = new Point(i_NewPlace.Left, i_NewPlace.Top);
             this.BackColor = Color.White;
         }
 

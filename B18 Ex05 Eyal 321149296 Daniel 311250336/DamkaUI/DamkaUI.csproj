@@ -53,6 +53,9 @@
     <Compile Include="Damka.cs">
       <SubType>Form</SubType>
     </Compile>
+    <Compile Include="DelayTimer.cs">
+      <SubType>Component</SubType>
+    </Compile>
     <Compile Include="GamePieceUI.cs">
       <SubType>Component</SubType>
     </Compile>
@@ -94,11 +97,8 @@
     <None Include="Resources\checkedCheckbox.png" />
     <None Include="Resources\MarbleBackground.jpg" />
     <None Include="Resources\doneButton.png" />
-    <None Include="Resources\explode.png" />
     <None Include="Resources\black.png" />
     <None Include="Resources\white.png" />
-    <None Include="Resources\whitePiece.png" />
-    <None Include="Resources\blackPiece.png" />
     <None Include="Resources\checkrsIcon.png" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
