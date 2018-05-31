@@ -4,11 +4,11 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProjectGuid>{42142039-3840-4A73-9CDE-2CF22B1CCCA0}</ProjectGuid>
+    <ProjectGuid>{30CA7DC0-5359-4D7A-B12D-D96FBFB3E547}</ProjectGuid>
     <OutputType>WinExe</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>DamkaUI</RootNamespace>
-    <AssemblyName>DamkaUI</AssemblyName>
+    <RootNamespace>Project1</RootNamespace>
+    <AssemblyName>Project1</AssemblyName>
     <TargetFrameworkVersion>v2.0</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
   </PropertyGroup>
@@ -21,7 +21,6 @@
     <DefineConstants>DEBUG;TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
-    <UseVSHostingProcess>true</UseVSHostingProcess>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <PlatformTarget>AnyCPU</PlatformTarget>
@@ -36,70 +35,29 @@
     <StartupObject />
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="B18 Ex02 Eyal 321149296 Daniel 311250336">
-      <HintPath>..\..\..\..\..\Desktop\C#\תרגיל 5\B18 Ex02 Eyal 321149296 Daniel 311250336.dll</HintPath>
-    </Reference>
-    <Reference Include="Ex02.ConsoleUtils">
-      <HintPath>..\..\..\..\..\..\..\Temp\Ex02.ConsoleUtils.dll</HintPath>
-    </Reference>
-    <Reference Include="System" />
-    <Reference Include="System.Drawing" />
-    <Reference Include="System.Windows.Forms" />
-  </ItemGroup>
-  <ItemGroup>
-    <Compile Include="BoardSizeRadioButton.cs">
-      <SubType>Component</SubType>
-    </Compile>
-    <Compile Include="Damka.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="GamePieceUI.cs">
-      <SubType>Component</SubType>
-    </Compile>
-    <Compile Include="GameSettings.cs">
-      <SubType>Form</SubType>
-    </Compile>
     <Compile Include="Program.cs" />
     <Compile Include="Properties\Resources.Designer.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
       <DependentUpon>Resources.resx</DependentUpon>
     </Compile>
+    <Compile Include="SomeForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="GameSettings.resx">
-      <DependentUpon>GameSettings.cs</DependentUpon>
-    </EmbeddedResource>
+    <Reference Include="System" />
+    <Reference Include="System.Drawing" />
+    <Reference Include="System.Windows.Forms" />
+  </ItemGroup>
+  <ItemGroup>
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
     </EmbeddedResource>
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="Resources\BlackTile.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="Resources\WhiteTile.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <Content Include="Resources\B18 Ex02 Eyal 321149296 Daniel 311250336.dll" />
-    <None Include="Resources\explosion.gif" />
-    <None Include="Resources\WhiteKing.png" />
-    <None Include="Resources\BlackKing.png" />
-    <None Include="Resources\doneButtonDisabled.png" />
-    <None Include="Resources\transparentTile.png" />
-    <None Include="Resources\uncheckedRadioButton.png" />
-    <None Include="Resources\uncheckedCheckbox.png" />
-    <None Include="Resources\checkedRadioButton.png" />
-    <None Include="Resources\checkedCheckbox.png" />
-    <None Include="Resources\MarbleBackground.jpg" />
-    <None Include="Resources\doneButton.png" />
-    <None Include="Resources\explode.png" />
-    <None Include="Resources\black.png" />
-    <None Include="Resources\white.png" />
-    <None Include="Resources\whitePiece.png" />
-    <None Include="Resources\blackPiece.png" />
-    <None Include="Resources\checkrsIcon.png" />
+    <EmbeddedResource Include="SomeForm.resx">
+      <DependentUpon>SomeForm.cs</DependentUpon>
+    </EmbeddedResource>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
