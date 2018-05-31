@@ -549,6 +549,7 @@ namespace DamkaUI
         private void checkIfPieceThatCapturedCanCaptureFurther()
         {
             BoardPosition currentPiece = new BoardPosition();
+            m_SamePieceCanCapture = false;
 
             currentPiece.Column = (m_PieceTaken.Left - k_LeftOffset) / k_TileWidth;
             currentPiece.Row = (m_PieceTaken.Top - k_TopOffset) / k_TileHeight;
