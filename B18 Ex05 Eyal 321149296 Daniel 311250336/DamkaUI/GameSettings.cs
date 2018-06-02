@@ -28,6 +28,7 @@ namespace DamkaUI
         private string m_PlayerOneName;
         private string m_PlayerTwoName;
         private int m_BoardSize;
+        private bool m_DoneWasClicked = false;
 
         public GameSettings()
         {
@@ -38,14 +39,13 @@ namespace DamkaUI
             initializeGameSettingWindow();
         }
 
-        private void done_clicked(object sender, EventArgs e)
+        private void done_clicked(object i_Sender, EventArgs i_E)
         {
+            m_DoneWasClicked = true;
             m_PlayerOneName = LabelPlayerOneName.Text;
             m_PlayerTwoName = LabelPlayerTwoName.Text;
             this.Close();
-            m_GameThread = new Thread(startGame);
-            m_GameThread.SetApartmentState(ApartmentState.STA);
-            m_GameThread.Start();
+            setNewGameThread();
         }
 
         private void startGame()
@@ -173,7 +173,28 @@ namespace DamkaUI
             this.Controls.Add(PictureBoxDoneButton);
             PictureBoxDoneButton.Click += new EventHandler(done_clicked);
 
+            this.FormClosing += new FormClosingEventHandler(close_form);
             this.Text = "Game Settings";
+        }
+
+        private void close_form(object i_Sender, FormClosingEventArgs i_E)
+        {
+            if ((this.DialogResult == DialogResult.Cancel) && (m_DoneWasClicked == false))
+            {
+                m_PlayerOneName = "Default";
+                m_PlayerTwoName = "[Computer]";
+                m_BoardSize = 8;
+                m_IsAgainstComputer = true;
+
+                setNewGameThread();
+            }
+        }
+
+        private void setNewGameThread()
+        {
+            m_GameThread = new Thread(startGame);
+            m_GameThread.SetApartmentState(ApartmentState.STA);
+            m_GameThread.Start();
         }
     }
 }

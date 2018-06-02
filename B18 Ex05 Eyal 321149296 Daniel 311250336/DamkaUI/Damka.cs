@@ -194,7 +194,7 @@ namespace DamkaUI
             return pic;
         }
 
-        private void click_tile(object i_Sender, EventArgs e)
+        private void click_tile(object i_Sender, EventArgs i_E)
         {
             if (m_FirstTurnClick == false)
             {
