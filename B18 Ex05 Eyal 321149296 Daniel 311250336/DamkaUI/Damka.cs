@@ -46,7 +46,7 @@ namespace DamkaUI
         {
             m_GameBoardData = new GameBoard(i_BoardSize);
 
-            m_PlayerOne = new Player(i_PlayerOneName,!v_IsComputerPlayer, BoardSymbol.PlayerOneRegular,m_GameBoardData);
+            m_PlayerOne = new Player(i_PlayerOneName, !v_IsComputerPlayer, BoardSymbol.PlayerOneRegular, m_GameBoardData);
             if (i_IsAgainstComputer)
             {
                 m_PlayerTwo = new Player(i_PlayerTwoName, v_IsComputerPlayer, BoardSymbol.PlayerTwoRegular, m_GameBoardData);
@@ -67,7 +67,7 @@ namespace DamkaUI
             this.Text = "Damka";
             this.BackgroundImage = DamkaGraphics.MarbleBackground;
             this.BackgroundImageLayout = ImageLayout.Stretch;
-            this.Size = new Size(((i_BoardSize * k_TileWidth) + 25), ((i_BoardSize * k_TileHeight) + 90));
+            this.Size = new Size((i_BoardSize * k_TileWidth) + 25, (i_BoardSize * k_TileHeight) + 90);
             this.FormBorderStyle = FormBorderStyle.FixedSingle;
             this.MaximizeBox = false;
             this.Icon = Icon.FromHandle(DamkaGraphics.checkrsIcon.GetHicon());
@@ -89,7 +89,6 @@ namespace DamkaUI
             initializePlayerData();
             for (int i = 0; i < m_GameBoardData.GameBoardSize; i++)
             {
-               
                 for (int j = 0; j < m_GameBoardData.GameBoardSize; j++)
                 {
                     m_GameBoardGraphics[i, j] = initializeTilePictureBox(top, left, i, j);
@@ -97,9 +96,9 @@ namespace DamkaUI
                     m_GameBoardGraphics[i, j].SendToBack();
                     left += k_TileWidth;
                 }
+
                 left = k_LeftOffset;
                 top += k_TileHeight;
-
             }
 
             initializePieceGraphics();
@@ -107,8 +106,8 @@ namespace DamkaUI
         
         private void convertBoardPositionToFormPosition(BoardPosition i_Position, out int i_Top, out int i_Left)
         {
-            i_Top = ((i_Position.Row * k_TileHeight) + k_TopOffset);
-            i_Left = ((i_Position.Column * k_TileWidth) + k_LeftOffset);
+            i_Top = (i_Position.Row * k_TileHeight) + k_TopOffset;
+            i_Left = (i_Position.Column * k_TileWidth) + k_LeftOffset;
         }
 
         private void initializePlayerData()
@@ -201,8 +200,7 @@ namespace DamkaUI
                 this.Cursor = m_DefaultCursor;
                 GamePieceUIPieceTaken.Image = m_PieceTakenImage;
                 m_NewPlace = convertFormPositionToBoardPosition(i_Sender as PictureBox);
-                if (m_CurrentPlayer.CheckMoveAvailabillityAndMove(m_CurrentPosition, m_NewPlace,
-                    m_CurrentPlayer.PiecesThatMustCapture()) == true)
+                if (m_CurrentPlayer.CheckMoveAvailabillityAndMove(m_CurrentPosition, m_NewPlace, m_CurrentPlayer.PiecesThatMustCapture()) == true)
                 {
                     playTurn(i_Sender as PictureBox);
                 }
@@ -367,8 +365,7 @@ namespace DamkaUI
                     if ((position.Column == m_PieceThatCaptured.Column) && (position.Row == m_PieceThatCaptured.Row))
                     {
                         GamePieceUIPieceTaken = pieceChosen.ChoosePiece(ref m_CurrentPosition, ref m_FirstTurnClick);
-                        changeCursorAndPieceTaken(new Cursor(((Bitmap)(pieceChosen.Image)).GetHicon()),
-                            DamkaGraphics.transparentTile);
+                        changeCursorAndPieceTaken(new Cursor(((Bitmap)pieceChosen.Image).GetHicon()), DamkaGraphics.transparentTile);
                     }
                     else
                     {
@@ -382,8 +379,7 @@ namespace DamkaUI
                         if (m_PlayerOnePieces.Contains(i_Sender as GamePieceUI))
                         {
                             GamePieceUIPieceTaken = pieceChosen.ChoosePiece(ref m_CurrentPosition, ref m_FirstTurnClick);
-                            changeCursorAndPieceTaken(new Cursor(((Bitmap)(pieceChosen.Image)).GetHicon()),
-                                DamkaGraphics.transparentTile);
+                            changeCursorAndPieceTaken(new Cursor(((Bitmap)pieceChosen.Image).GetHicon()), DamkaGraphics.transparentTile);
                         }
                         else
                         {
@@ -395,8 +391,7 @@ namespace DamkaUI
                         if (m_PlayerTwoPieces.Contains(i_Sender as GamePieceUI))
                         {
                             GamePieceUIPieceTaken = pieceChosen.ChoosePiece(ref m_CurrentPosition, ref m_FirstTurnClick);
-                            changeCursorAndPieceTaken(new Cursor(((Bitmap)(pieceChosen.Image)).GetHicon()),
-                                DamkaGraphics.transparentTile);
+                            changeCursorAndPieceTaken(new Cursor(((Bitmap)pieceChosen.Image).GetHicon()), DamkaGraphics.transparentTile);
                         }
                         else
                         {
@@ -424,16 +419,16 @@ namespace DamkaUI
         {
             BoardPosition result = new BoardPosition();
 
-            result.Row = ((i_PieceChosen.Top - k_TopOffset) / k_TileHeight);
-            result.Column = ((i_PieceChosen.Left - k_LeftOffset) / k_TileWidth);
+            result.Row = (i_PieceChosen.Top - k_TopOffset) / k_TileHeight;
+            result.Column = (i_PieceChosen.Left - k_LeftOffset) / k_TileWidth;
 
             return result;
         }
 
         private void changeCursorAndPieceTaken(Cursor i_NewCursor, Image i_ImageToReplacePieceTaken)
         {
-            //this will change the cursor to piece/default and simulate grabbing or returning the piece.
-            m_PieceTakenImage = GamePieceUIPieceTaken.Image; //save the image of the piece taken.
+            // this will change the cursor to piece/default and simulate grabbing or returning the piece.
+            m_PieceTakenImage = GamePieceUIPieceTaken.Image; // save the image of the piece taken.
             this.Cursor = i_NewCursor;
             GamePieceUIPieceTaken.Image = i_ImageToReplacePieceTaken;
         }
@@ -490,7 +485,6 @@ namespace DamkaUI
             }
 
             playTurn(tileToMoveTo);
-
         }
 
         private BoardPosition getPositionFromChars(char i_Column, char i_Row)
@@ -526,7 +520,6 @@ namespace DamkaUI
             {
                 this.Controls.Remove(piece);
             }
-
 
             m_PlayerTwoPieces.Clear();
             m_GameBoardData.InitiliazeGamePiecesOnBoard();
@@ -587,7 +580,6 @@ namespace DamkaUI
             }
 
             m_CurrentPlayer.CanCapture = m_SamePieceCanCapture;
-            
         }
 
         private void checkIfGameOver()

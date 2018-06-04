@@ -100,36 +100,27 @@ namespace DamkaUI
             this.MaximizeBox = false;
             this.MinimizeBox = false;
             this.FormBorderStyle = FormBorderStyle.FixedSingle;
-            
-
             BoardSizeRadioButtonSixOnSix = new BoardSizeRadioButton("6x6", 30, 20);
             BoardSizeRadioButtonSixOnSix.Click += new EventHandler(enable_done);
-
             BoardSizeRadioButtonEightOnEight = new BoardSizeRadioButton("8x8", BoardSizeRadioButtonSixOnSix.Top, BoardSizeRadioButtonSixOnSix.Left + 70);
             BoardSizeRadioButtonEightOnEight.Click += new EventHandler(enable_done);
-
             BoardSizeRadioButtonTenOnTen = new BoardSizeRadioButton("10x10", BoardSizeRadioButtonSixOnSix.Top, BoardSizeRadioButtonEightOnEight.Left + 70);
             BoardSizeRadioButtonTenOnTen.Click += new EventHandler(enable_done);
             this.Controls.Add(BoardSizeRadioButtonSixOnSix);
             this.Controls.Add(BoardSizeRadioButtonEightOnEight);
             this.Controls.Add(BoardSizeRadioButtonTenOnTen);
-
             LabelBoardSettings.Font = new Font("Arial", 10);
             LabelBoardSettings.Text = "Board Size:";
             LabelBoardSettings.Top = 5;
             LabelBoardSettings.Left = 5;
             LabelBoardSettings.BackColor = Color.Transparent;
             this.Controls.Add(LabelBoardSettings);
-
-
             LabelPlayers.Font = new Font("Arial", 10);
             LabelPlayers.Text = "Players:";
             LabelPlayers.Top = 50;
             LabelPlayers.Left = 5;
             LabelPlayers.BackColor = Color.Transparent;
             this.Controls.Add(LabelPlayers);
-
-
             LabelPlayerOne.Font = new Font("Arial", 10);
             LabelPlayerOne.Text = "Player 1:";
             LabelPlayerOne.Top = 75;
@@ -137,7 +128,6 @@ namespace DamkaUI
             LabelPlayerOne.Size = new Size(70, 20);
             LabelPlayerOne.BackColor = Color.Transparent;
             this.Controls.Add(LabelPlayerOne);
-
             LabelPlayerTwo.Font = new Font("Arial", 10);
             LabelPlayerTwo.Text = "Player 2:";
             LabelPlayerTwo.Top = 100;
@@ -145,25 +135,21 @@ namespace DamkaUI
             LabelPlayerTwo.Size = new Size(70, 20);
             LabelPlayerTwo.BackColor = Color.Transparent;
             this.Controls.Add(LabelPlayerTwo);
-
             LabelPlayerOneName.Top = LabelPlayerOne.Top;
             LabelPlayerOneName.Left = LabelPlayerOne.Right + 20;
             this.Controls.Add(LabelPlayerOneName);
-
             LabelPlayerTwoName.Enabled = false;
             LabelPlayerTwoName.Text = "[Computer]";
             LabelPlayerTwoName.Top = LabelPlayerTwo.Top;
             LabelPlayerTwoName.Left = LabelPlayerTwo.Right + 20;
             this.Controls.Add(LabelPlayerTwoName);
             LabelPlayerTwoName.EnabledChanged += new EventHandler(textBox_disabled);
-
             CheckBoxPlayerTwoHuman.Checked = false;
             CheckBoxPlayerTwoHuman.Top = 98;
             CheckBoxPlayerTwoHuman.Left = 20;
             CheckBoxPlayerTwoHuman.BackColor = Color.Transparent;
             this.Controls.Add(CheckBoxPlayerTwoHuman);
             CheckBoxPlayerTwoHuman.CheckedChanged += new EventHandler(checkBox_change);
-
             PictureBoxDoneButton.Enabled = false;
             PictureBoxDoneButton.Text = "Done";
             PictureBoxDoneButton.Top = this.ClientSize.Height - PictureBoxDoneButton.Height;
@@ -172,7 +158,6 @@ namespace DamkaUI
             PictureBoxDoneButton.SizeMode = PictureBoxSizeMode.StretchImage;
             this.Controls.Add(PictureBoxDoneButton);
             PictureBoxDoneButton.Click += new EventHandler(done_clicked);
-
             this.FormClosing += new FormClosingEventHandler(close_form);
             this.Text = "Game Settings";
         }

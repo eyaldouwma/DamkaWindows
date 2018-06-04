@@ -7,7 +7,7 @@ using B18_Ex02_Eyal_321149296_Daniel_311250336;
 
 namespace DamkaUI
 {
-    class GamePieceUI : PictureBox
+    public class GamePieceUI : PictureBox
     {
         private const int k_TileHeight = 56;
         private const int k_TileWidth = 55;
@@ -43,6 +43,5 @@ namespace DamkaUI
 
             return this;
         }
-
     }
 }

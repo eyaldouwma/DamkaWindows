@@ -6,7 +6,7 @@ using System.Drawing;
 
 namespace DamkaUI
 {
-    class BoardSizeRadioButton : RadioButton
+    public class BoardSizeRadioButton : RadioButton
     {
         public BoardSizeRadioButton(string i_ButtonText, int i_Top, int i_Left)
         {

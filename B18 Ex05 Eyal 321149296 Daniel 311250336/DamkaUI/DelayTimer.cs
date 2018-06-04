@@ -6,7 +6,7 @@ using System.Timers;
 
 namespace DamkaUI
 {
-    class DelayTimer : Timer
+    public class DelayTimer : Timer
     {
         public DelayTimer(ISynchronizeInvoke i_MainForm, int i_Delay)
         {

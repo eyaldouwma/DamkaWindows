@@ -10,7 +10,6 @@ namespace DamkaUI
         {
             GameSettings game = new DamkaUI.GameSettings();
             game.ShowDialog();
-
         }
     }
 }
