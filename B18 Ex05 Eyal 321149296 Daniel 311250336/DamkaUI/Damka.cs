@@ -141,11 +141,11 @@ namespace DamkaUI
                 {
                     if (m_GameBoardData.GetCellSymbol(i, j) == (char)BoardSymbol.PlayerOneRegular)
                     {
-                        m_PlayerOnePieces.Add(initializePiecePictureBox(top, left, DamkaGraphics.white, i, j));
+                        m_PlayerOnePieces.Add(initializePiecePictureBox(top, left, DamkaGraphics.white));
                     }
                     else if (m_GameBoardData.GetCellSymbol(i, j) == (char)BoardSymbol.PlayerTwoRegular)
                     {
-                        m_PlayerTwoPieces.Add(initializePiecePictureBox(top, left, DamkaGraphics.black, i, j));
+                        m_PlayerTwoPieces.Add(initializePiecePictureBox(top, left, DamkaGraphics.black));
                     }
 
                     left += k_TileWidth;
@@ -342,7 +342,7 @@ namespace DamkaUI
             PictureBoxExplosions.Clear();
         }
 
-        private GamePieceUI initializePiecePictureBox(int i_Top, int i_Left, Image i_Img, int i_Row, int i_Column)
+        private GamePieceUI initializePiecePictureBox(int i_Top, int i_Left, Image i_Img)
         {
             GamePieceUI picture = new GamePieceUI(i_Top, i_Left, i_Img);
 
